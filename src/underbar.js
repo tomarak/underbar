@@ -92,22 +92,15 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
 
-    _.filter(collection, function(test){
-      return function(){
-        return !test.apply(this, arguments);
-      }
-    }
-/*
-_.negate = function(predicate) {
-    return function() {
-      return !predicate.apply(this, arguments);
-    };
+    return _.filter(collection, function(item){
+      return !test(item);
+      });
   };
-*/
-  };
+
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+
   };
 
 
