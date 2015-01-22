@@ -54,9 +54,9 @@
     } else {
       for(var key in collection){
        iterator(collection[key], key, collection);
-      }
-    }
-  }
+     }
+   }
+ }
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -77,6 +77,14 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var passedTest = [];
+    _.each(collection, function(item, index, collection){
+      if( test(collection[index]) ){
+        passedTest.push(collection[index]);
+      }
+
+    });
+    return passedTest;
   };
 
   // Return all elements of an array that don't pass a truth test.
