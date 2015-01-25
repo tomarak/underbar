@@ -38,7 +38,15 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    return n === undefined ? array[array.length - 1] : array.slice((array.length - n), (array.length - 1));
+
+  //return n === undefined ? array[array.length - 1] : array.slice((array.length - n), array.length);
+    //can't get figure out how to get last testcase to work with above code
+    if(n === undefined){
+      return array[array.length - 1];
+    }else if(n > array.length){
+      n = array.length;
+    }
+    return array.slice((array.length - n), (array.length));
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -78,7 +86,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var passedTest = [];
-    _.each(collection, function(item, index, collection){
+    _.each(collection, function(item, index){
       if( test(collection[index]) ){
         passedTest.push(collection[index]);
       }
@@ -99,13 +107,13 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var newArray = [];
-    for(var i = 0; i < array.length; i++){
-      if(array[i] != newArray[newArray.indexOf(array[i])]){
-        newArray.push(array[i])
+    var passedTest = [];
+    _.each(array, function(item){
+      if(_.indexOf(passedTest, item) === -1){
+        passedTest.push(item);
       }
-    }
-    return newArray;
+    })
+    return passedTest;
   };
 
 
@@ -161,6 +169,13 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    var current;
+    accumulator === undefined ? current = collection[0] : current = accumulator;
+    _.each(collection, function(colVal){
+      current = iterator(current, colVal)
+    })
+    return current
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
