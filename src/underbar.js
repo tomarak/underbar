@@ -168,16 +168,19 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function(collection, iterator, accumulator) {
-    var current;
-    accumulator === undefined ? current = collection[0] : current = accumulator;
-    _.each(collection, function(colVal){
-      current = iterator(current, colVal)
-    })
-    return current
 
-  };
+  _.reduce = function(collection, callback, accumulator) {
+    var index = -1;
 
+    if (accumulator === undefined) {
+      accumulator = collection[++index];
+    }
+    while (++index < collection.length) {
+      accumulator = callback(accumulator, collection[index], index, collection);
+    }
+
+    return accumulator;
+  }
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
