@@ -170,19 +170,6 @@
   //          No accumulator is given so the first element is used.
 
   _.reduce = function(collection, callback, accumulator) {
-    /*
-    var index = -1;
-
-    if (arguments.length < 3) {
-      accumulator = collection[++index];
-    }
-    while (++index < collection.length) {
-      accumulator = callback(accumulator, collection[index], index, collection);
-    }
-
-    return accumulator;
-    */
-
   
     if (accumulator === undefined) {
       accumulator = collection[0];
@@ -192,7 +179,7 @@
       return accumulator;
     } else{
       _.each(collection, function(item, index, collection){
-        accumulator = callback(accumulator, item, index, collection)    
+        accumulator = callback(accumulator, collection[index], index, collection)    
     })
 
     return accumulator;
@@ -233,6 +220,7 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
 
+    //mein nicht-clever soln D:
     if(arguments.length < 2){
       iterator = _.identity;
     }
@@ -244,6 +232,12 @@
       }
     }, false);
   };
+
+  /*
+  return !_.every(collection, function(test){
+  return (!)test
+  })
+  */
 
 
   /**
@@ -266,9 +260,19 @@
   //   }); // obj1 now contains key1, key2, key3 and bla
 _.extend = function(obj) {
 
-  _.each(arguments, function(arg){
-
-  })
+  //need to refactor to use _.each
+  
+  if(arguments.length < 2){
+    return obj;
+  }
+  var from, to = arguments[0]
+  for(var i = 1; i < arguments.length; i++){
+    from = arguments[i];
+    for(var key in from){
+      to[key] = from[key];
+    }
+  }
+  return to;
   
 };
 
