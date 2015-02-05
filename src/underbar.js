@@ -124,8 +124,8 @@
     // the members, it also maintains an array of results.
 
     var newArray = [];
-    _.each(collection, function(colVal){
-      newArray.push(iterator(colVal));
+    _.each(collection, function(item){
+      newArray.push(iterator(item));
     })
     return newArray;
   };
@@ -170,9 +170,10 @@
   //          No accumulator is given so the first element is used.
 
   _.reduce = function(collection, callback, accumulator) {
+    /*
     var index = -1;
 
-    if (accumulator === undefined) {
+    if (arguments.length < 3) {
       accumulator = collection[++index];
     }
     while (++index < collection.length) {
@@ -180,8 +181,23 @@
     }
 
     return accumulator;
+    */
 
+  
+    if (accumulator === undefined) {
+      accumulator = collection[0];
+      for(var index = 1; index < collection.length; index++){
+        accumulator = callback(accumulator, collection[index], index, collection)
+      }
+      return accumulator;
+    } else{
+      _.each(collection, function(item, index, collection){
+        accumulator = callback(accumulator, item, index, collection)    
+    })
+
+    return accumulator;
   }
+}
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
@@ -203,8 +219,10 @@
     if(arguments.length < 2){
       iterator = _.identity;
     }
-    return _.reduce(collection, function(item){
-      if (!(iterator(item))){
+    return _.reduce(collection, function(testbool, item) {
+      if (testbool) {
+        return Boolean(iterator(item));
+      } else {
         return false;
       }
     }, true);
@@ -214,6 +232,17 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    if(arguments.length < 2){
+      iterator = _.identity;
+    }
+    return _.reduce(collection, function(testbool, item) {
+      if (!testbool) {
+        return Boolean(iterator(item));
+      } else {
+        return true;
+      }
+    }, false);
   };
 
 
@@ -236,6 +265,11 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
 _.extend = function(obj) {
+
+  _.each(arguments, function(arg){
+
+  })
+  
 };
 
   // Like extend, but doesn't ever overwrite a key that already
