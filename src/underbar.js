@@ -370,9 +370,19 @@ _.each(arguments, function(arg[index], index, arguments){
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    var newArr = array.slice(0, array.length);
+    var newArr = []
+    var index;
 
-    
+    while(newArr.length < array.length){
+      index = Math.floor(Math.random()*array.length);
+
+      if(_.indexOf(newArr, array[index]) === -1){
+        newArr.push(array[index]);
+      }
+
+    }
+
+    return newArr;
   };
 
 
