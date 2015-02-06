@@ -170,7 +170,7 @@
   //          No accumulator is given so the first element is used.
 
   _.reduce = function(collection, callback, accumulator) {
-  
+
     if (accumulator === undefined) {
       accumulator = collection[0];
       for(var index = 1; index < collection.length; index++){
@@ -180,11 +180,11 @@
     } else{
       _.each(collection, function(item, index, collection){
         accumulator = callback(accumulator, collection[index], index, collection)    
-    })
+      })
 
-    return accumulator;
+      return accumulator;
+    }
   }
-}
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
@@ -237,7 +237,7 @@
   return !_.every(collection, function(test){
   return (!)test
   })
-  */
+*/
 
 
   /**
@@ -261,11 +261,11 @@
 _.extend = function(obj) {
 
   //need to refactor to use _.each
-  
+
   if(arguments.length < 2){
     return obj;
   }
-  var from, to = arguments[0]
+  var from, to = arguments[0];
   for(var i = 1; i < arguments.length; i++){
     from = arguments[i];
     for(var key in from){
@@ -276,9 +276,34 @@ _.extend = function(obj) {
   
 };
 
+/*
+if(arguments.length < 2){
+  return obj;
+}
+
+var from, to = arguments[0]
+_.each(arguments, function(arg[index], index, arguments){
+  _.each()
+})
+*/
+
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    if(arguments.length < 2){
+      return obj;
+    }
+    var from, to = arguments[0];
+    for(var i = 1; i < arguments.length; i++){
+      from = arguments[i];
+
+      for(var key in from){
+        if(!(key in to)){
+          to[key] = from[key];
+        }
+      }
+    }
+    return to;
   };
 
 
@@ -345,6 +370,9 @@ _.extend = function(obj) {
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var newArr = array.slice(0, array.length);
+
+    
   };
 
 
