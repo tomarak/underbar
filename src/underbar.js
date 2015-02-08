@@ -351,7 +351,7 @@ _.each(arguments, function(arg[index], index, arguments){
    var memos = {};
    return function(){
      var args = Array.prototype.slice.call(arguments);
-    
+
      if(!memos[args]){
       memos[args] = func.apply(this, args);
     }
@@ -396,6 +396,10 @@ _.each(arguments, function(arg[index], index, arguments){
         newArr.push(array[index]);
       }
 
+      if(newArr == array){
+        newArr = [];
+      }
+
     }
 
     return newArr;
@@ -413,6 +417,17 @@ _.each(arguments, function(arg[index], index, arguments){
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+
+    var funcargs = Array.prototype.slice.call(arguments, 2);
+
+    var paramtype = typeof functionOrKey;
+    return _.map(collection, function(item){
+      if(paramtype == 'function'){
+        return functionOrKey.apply(item, funcargs);
+      } else {
+        return item[functionOrKey].apply(item, funcargs);
+      }
+    })
   };
 
   // Sort the object's values by a criterion produced by an iterator.
