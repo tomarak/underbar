@@ -396,7 +396,7 @@ _.each(arguments, function(arg[index], index, arguments){
         newArr.push(array[index]);
       }
 
-      if(newArr == array){
+      else if(newArr == array){
         newArr = [];
       }
 
@@ -417,10 +417,9 @@ _.each(arguments, function(arg[index], index, arguments){
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-
     var funcargs = Array.prototype.slice.call(arguments, 2);
-
     var paramtype = typeof functionOrKey;
+
     return _.map(collection, function(item){
       if(paramtype == 'function'){
         return functionOrKey.apply(item, funcargs);
@@ -443,6 +442,8 @@ _.each(arguments, function(arg[index], index, arguments){
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -455,7 +456,22 @@ _.each(arguments, function(arg[index], index, arguments){
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-  };
+    var arrays = Array.prototype.slice.call(arguments);
+    var inAll, common = [];
+
+   _.each(arrays, function(array){
+     _.each(array, function(element){
+      inAll = _.every(arrays, function(array){
+                return _.contains(array, element);
+              });
+
+        if(inAll && _.indexOf(common, element) === -1) common.push(element);
+      })
+    })
+
+  return common;
+  }
+
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
