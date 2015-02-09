@@ -456,6 +456,9 @@ _.each(arguments, function(arg[index], index, arguments){
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    //alternative solution: get number of arrays, flatten arrays, get any element
+    //that appears as many times as #of arrays
+
     var arrays = Array.prototype.slice.call(arguments);
     var inAll, common = [];
 
@@ -476,6 +479,16 @@ _.each(arguments, function(arg[index], index, arguments){
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var primary = array;
+    var otherAs = Array.prototype.slice.call(arguments, 1);
+    _.each(otherAs, function(otherA){
+      _.each(otherA, function(element){
+        if(_.contains(array, element)){
+          primary.splice(_.indexOf(primary, element), 1);
+        }
+      })
+    })
+    return primary;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
