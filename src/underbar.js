@@ -2,6 +2,7 @@
   'use strict';
 
   window._ = {};
+  
 
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
@@ -64,7 +65,7 @@
        iterator(collection[key], key, collection);
      }
    }
- }
+ };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
@@ -112,7 +113,7 @@
       if(_.indexOf(passedTest, item) === -1){
         passedTest.push(item);
       }
-    })
+    });
     return passedTest;
   };
 
@@ -126,7 +127,7 @@
     var newArray = [];
     _.each(collection, function(item){
       newArray.push(iterator(item));
-    })
+    });
     return newArray;
   };
 
@@ -174,17 +175,17 @@
     if (accumulator === undefined) {
       accumulator = collection[0];
       for(var index = 1; index < collection.length; index++){
-        accumulator = callback(accumulator, collection[index], index, collection)
+        accumulator = callback(accumulator, collection[index], index, collection);
       }
       return accumulator;
     } else{
       _.each(collection, function(item, index, collection){
-        accumulator = callback(accumulator, collection[index], index, collection)    
-      })
+        accumulator = callback(accumulator, collection[index], index, collection);   
+      });
 
       return accumulator;
     }
-  }
+  };
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
@@ -233,11 +234,7 @@
     }, false);
   };
 
-  /*
-  return !_.every(collection, function(test){
-  return (!)test
-  })
-*/
+  
 
 
   /**
@@ -317,6 +314,8 @@ _.each(arguments, function(arg[index], index, arguments){
 
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
+
+  
   _.once = function(func) {
     // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
@@ -357,7 +356,7 @@ _.each(arguments, function(arg[index], index, arguments){
     }
     
     return memos[args];
-  }
+  };
 };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -367,10 +366,10 @@ _.each(arguments, function(arg[index], index, arguments){
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    var args = Array.prototype.slice.call(arguments, 2)
+    var args = Array.prototype.slice.call(arguments, 2);
     
     setTimeout(function(){
-      func.apply(this, args)
+      func.apply(this, args);
     }, wait);
   };
 
@@ -386,7 +385,7 @@ _.each(arguments, function(arg[index], index, arguments){
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    var newArr = []
+    var newArr = [];
     var index;
 
     while(newArr.length < array.length){
@@ -416,6 +415,8 @@ _.each(arguments, function(arg[index], index, arguments){
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
+
+  
   _.invoke = function(collection, functionOrKey, args) {
     var funcargs = Array.prototype.slice.call(arguments, 2);
     var paramtype = typeof functionOrKey;
@@ -426,7 +427,7 @@ _.each(arguments, function(arg[index], index, arguments){
       } else {
         return item[functionOrKey].apply(item, funcargs);
       }
-    })
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -434,6 +435,7 @@ _.each(arguments, function(arg[index], index, arguments){
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -442,6 +444,9 @@ _.each(arguments, function(arg[index], index, arguments){
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var arrays = Array.prototype.slice.call(arguments);
+    var first = arrays.splice(0, 1);
+
 
 
   };
@@ -450,11 +455,22 @@ _.each(arguments, function(arg[index], index, arguments){
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
+
+  
   _.flatten = function(nestedArray, result) {
-  };
+/*
+    _.each(nestedArray, function(item){
+      if(!Array.isArray(nestedArray[item])){
+        nestedArray.push(item);
+      }
+    });
+*/
+   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
+
+
   _.intersection = function() {
     //alternative solution: get number of arrays, flatten arrays, get any element
     //that appears as many times as #of arrays
@@ -469,11 +485,11 @@ _.each(arguments, function(arg[index], index, arguments){
               });
 
         if(inAll && _.indexOf(common, element) === -1) common.push(element);
-      })
-    })
+      });
+    });
 
   return common;
-  }
+  };
 
 
   // Take the difference between one array and a number of other arrays.
@@ -486,8 +502,8 @@ _.each(arguments, function(arg[index], index, arguments){
         if(_.contains(array, element)){
           primary.splice(_.indexOf(primary, element), 1);
         }
-      })
-    })
+      });
+    });
     return primary;
   };
 
@@ -498,4 +514,6 @@ _.each(arguments, function(arg[index], index, arguments){
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
   };
+
 }());
+
