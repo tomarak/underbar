@@ -459,13 +459,20 @@ _.each(arguments, function(arg[index], index, arguments){
   
   _.flatten = function(nestedArray, result) {
 /*
-    _.each(nestedArray, function(item){
-      if(!Array.isArray(nestedArray[item])){
-        nestedArray.push(item);
-      }
-    });
+    
 */
-   };
+result = result || [];
+
+  for(var i = 0; i < nestedArray.length; i++){
+    if(Array.isArray(nestedArray[i])){
+      _.flatten(nestedArray[i], result);
+    }
+    else{
+      result.push(nestedArray[i]);
+    }
+  }
+  return result;
+ };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
