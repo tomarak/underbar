@@ -444,11 +444,26 @@ _.each(arguments, function(arg[index], index, arguments){
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
-    var arrays = Array.prototype.slice.call(arguments);
-    var first = arrays.splice(0, 1);
+    var args = Array.prototype.slice.call(arguments, 0);
+    var collection = [];
+    var maxlength = 0;
 
+    _.each(args, function(item){
+      if(item.length > maxlength){
+        maxlength = item.length;
+      }
+    });
 
-
+    for(var i = 0; i < args.length; i++){
+      for(var j = 0; j < maxlength; j++){
+        if(collection[j] === undefined){
+          collection.push([args[i][j]]);
+        } else {
+          collection[j].push(args[i][j]);
+        }
+      }
+    }
+    return collection;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -458,21 +473,18 @@ _.each(arguments, function(arg[index], index, arguments){
 
   
   _.flatten = function(nestedArray, result) {
-/*
-    
-*/
-result = result || [];
+    result = result || [];
 
-  for(var i = 0; i < nestedArray.length; i++){
-    if(Array.isArray(nestedArray[i])){
-      _.flatten(nestedArray[i], result);
-    }
-    else{
-      result.push(nestedArray[i]);
-    }
-  }
-  return result;
- };
+    _.each(nestedArray, function(item){
+      if(Array.isArray(item)){
+        _.flatten(item, result);
+      }
+      else{
+        result.push(item);
+      }
+    });
+    return result;
+  };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
@@ -485,17 +497,17 @@ result = result || [];
     var arrays = Array.prototype.slice.call(arguments);
     var inAll, common = [];
 
-   _.each(arrays, function(array){
+    _.each(arrays, function(array){
      _.each(array, function(element){
       inAll = _.every(arrays, function(array){
-                return _.contains(array, element);
-              });
-
-        if(inAll && _.indexOf(common, element) === -1) common.push(element);
+        return _.contains(array, element);
       });
-    });
 
-  return common;
+      if(inAll && _.indexOf(common, element) === -1) common.push(element);
+    });
+   });
+
+    return common;
   };
 
 
@@ -520,6 +532,9 @@ result = result || [];
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    _.once(function(func){
+      _.delay(func, wait);
+  });
   };
 
 }());
